@@ -129,6 +129,7 @@ Add the optional flags when your data has them — each switches on more:
 | `--target` | the column you're predicting | target-encoding check |
 | `--time-col` | a date/timestamp column | look-ahead (temporal) check |
 | `--group-col` | an id column (patient, user, device) | group-split check |
+| `--seq-col` | a protein/DNA sequence column | homology-leakage check |
 | `--measure-impact` | *(no value)* | quantify how much each leak inflates the score |
 | `--auto` | *(no value)* | auto-detect the columns above / advise on one file |
 | `--html PATH` | a file path | also write a shareable HTML report |
@@ -154,6 +155,8 @@ Each line is one finding, with a severity, the evidence, and a fix.
 | **temporal** | Training rows dated at/after your test rows — the model "saw the future". |
 | **target_encoding** | A feature (often an ID) basically *is* the answer. |
 | **group_split** | The same subject is in both sets — it recognises the subject, not the pattern. |
+| **adversarial** | A model can tell train from test apart — distribution shift or a leaking split column. |
+| **homology** | Test sequences (protein/DNA) that are *similar* — not identical — to training ones. |
 | **impact** | *How much* score each leak is inflating (see step 7). |
 
 > ⚠️ A clean report is **not proof** your split is perfect. It means these
