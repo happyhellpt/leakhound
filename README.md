@@ -53,6 +53,22 @@ python examples/real_world.py
   <img src="docs/real_world.png" alt="LeakHound on EEG Eye State" width="820">
 </p>
 
+## Built for biological data, too
+
+Generic tools catch identical rows. They miss **homology leakage** — test
+sequences that are merely *similar* to training ones, which wrecks protein/DNA
+models. LeakHound estimates k-mer similarity (pure Python) and flags it; its
+companion [safesplit](https://github.com/happyhellpt/safesplit) splits so
+near-homologues never span the split:
+
+<p align="center">
+  <img src="docs/homology.png" alt="Homology leakage: before and after" width="820">
+</p>
+
+```bash
+python examples/bio_homology.py
+```
+
 ## Why I built this
 
 I once watched a model of mine post a score I was proud of. Then I looked closer:
@@ -72,6 +88,8 @@ So I built the check I wish I'd run the first time.
 | **temporal** | Training rows dated at/after the earliest test row — the model trains on the future |
 | **target_encoding** | A feature (often an ID) that predicts the label almost perfectly |
 | **group_split** | The same patient / user / device on both sides of the split |
+| **adversarial** | Whether a model can tell your train and test apart (distribution shift or split leakage) |
+| **homology** | Test sequences (protein/DNA) *similar* — not identical — to training ones |
 | **impact** | *How much* AUC/R² each leak is inflating — the honest score vs the fake one |
 
 Every finding comes with the evidence **and a one-line fix**.
@@ -84,6 +102,7 @@ Every finding comes with the evidence **and a one-line fix**.
   group columns and warns you *before* you split.
 - **`--html report.html`** — a self-contained, shareable report you can send to
   a colleague or attach to a PR.
+- **`--seq-col`** — homology-aware leakage detection for **protein/DNA** datasets (pure Python; no MMseqs2/CD-HIT needed). The leak generic tools miss.
 - **Cross-platform** — Windows, macOS, Linux; auto-falls back to plain ASCII on
   legacy terminals.
 
