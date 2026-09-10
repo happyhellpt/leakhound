@@ -60,3 +60,20 @@ def test_impact_quantifies_inflation():
     report = audit(train, test, target="label", measure_impact=True)
     impacts = [f for f in report.findings if f.check == "impact"]
     assert any(f.evidence.get("inflation", 0) > 0.05 for f in impacts)
+
+
+def test_temporal_impact_is_measured():
+    pytest.importorskip("sklearn")
+    rng = np.random.default_rng(3)
+    n = 1500
+    # a drifting time series: the honest (chronological) score is much worse
+    t = pd.date_range("2024-01-01", periods=n, freq="h")
+    trend = np.linspace(-3, 3, n)
+    x = trend + rng.normal(0, 0.5, n)
+    label = (rng.normal(0, 1, n) + trend > 0).astype(int)
+    df = pd.DataFrame({"time": t, "x": x, "label": label})
+    ridx = rng.permutation(n); c = int(0.8 * n)
+    train = df.iloc[ridx[:c]].reset_index(drop=True)
+    test = df.iloc[ridx[c:]].reset_index(drop=True)
+    report = audit(train, test, target="label", time_col="time", measure_impact=True)
+    assert any(f.check == "impact" and "chronological" in f.message for f in report.findings)

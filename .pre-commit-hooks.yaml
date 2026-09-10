@@ -1,0 +1,7 @@
+- id: leakhound
+  name: LeakHound data-leakage check
+  description: Fail the commit if the configured train/test split leaks.
+  entry: leakhound
+  language: python
+  additional_dependencies: ["leakhound-ml"]
+  pass_filenames: false

@@ -1,0 +1,44 @@
+name: "LeakHound"
+description: "Fail CI when your ML train/test split has data leakage."
+branding:
+  icon: "alert-triangle"
+  color: "red"
+inputs:
+  train:
+    description: "Path to the training CSV"
+    required: true
+  test:
+    description: "Path to the test/validation CSV"
+    required: false
+    default: ""
+  target:
+    description: "Target/label column"
+    required: false
+    default: ""
+  time-col:
+    description: "Timestamp column (temporal leakage check)"
+    required: false
+    default: ""
+  group-col:
+    description: "Group id column (group-split check)"
+    required: false
+    default: ""
+  measure-impact:
+    description: "Set to 'true' to quantify how much each leak inflates the score"
+    required: false
+    default: "false"
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: python -m pip install "leakhound-ml[impact]"
+    - shell: bash
+      run: |
+        set -euo pipefail
+        args=(--train "${{ inputs.train }}")
+        [ -n "${{ inputs.test }}" ]     && args+=(--test "${{ inputs.test }}")
+        [ -n "${{ inputs.target }}" ]   && args+=(--target "${{ inputs.target }}")
+        [ -n "${{ inputs.time-col }}" ] && args+=(--time-col "${{ inputs.time-col }}")
+        [ -n "${{ inputs.group-col }}" ] && args+=(--group-col "${{ inputs.group-col }}")
+        [ "${{ inputs.measure-impact }}" = "true" ] && args+=(--measure-impact)
+        leakhound "${args[@]}"

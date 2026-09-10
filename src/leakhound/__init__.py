@@ -14,7 +14,7 @@ from .checks import (
 )
 from .autodetect import infer_roles, build_advisories
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 __all__ = ["audit", "Report", "Finding", "infer_roles", "build_advisories", "__version__"]
 
 
@@ -47,7 +47,8 @@ def audit(train: pd.DataFrame,
 
     if measure_impact and test is not None and target is not None:
         from .impact import measure_leak_impact
-        for f in measure_leak_impact(train, test, target, report.leaks):
+        for f in measure_leak_impact(train, test, target, report.leaks,
+                                     time_col=time_col, group_col=group_col):
             report.add(f)
 
     if not report.findings:
