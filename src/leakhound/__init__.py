@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026 Joel Gomes
 """LeakHound — sniff out data leakage in your ML train/test split before it fools you."""
 from __future__ import annotations
 

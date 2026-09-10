@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026 Joel Gomes
 """Best-effort inference of target / time / group columns, and pre-split advice."""
 from __future__ import annotations
 

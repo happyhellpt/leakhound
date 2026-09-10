@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026 Joel Gomes
 """Quantify the damage: fit a quick baseline and measure how much each leak inflates the score."""
 from __future__ import annotations
 

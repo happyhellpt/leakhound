@@ -105,4 +105,6 @@ the ones that bite most often.
 
 ## License
 
-MIT © 2026 Joel Gomes
+GNU AGPL-3.0-or-later © 2026 Joel Gomes.
+
+Using LeakHound inside a **closed-source product or a hosted service**? The AGPL requires you to release your source under the same license. If that doesn't work for you, a **commercial license is available** — open an issue or get in touch.

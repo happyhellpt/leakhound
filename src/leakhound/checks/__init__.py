@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026 Joel Gomes
 from .duplicates import check_duplicates
 from .temporal import check_temporal
 from .target_encoding import check_target_encoding

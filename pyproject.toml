@@ -8,12 +8,12 @@ version = "0.2.0"
 description = "Sniff out data leakage in your ML train/test split before it fools you."
 readme = "README.md"
 requires-python = ">=3.9"
-license = "MIT"
+license = "AGPL-3.0-or-later"
 authors = [{ name = "Joel Gomes" }]
 keywords = ["machine-learning", "data-leakage", "validation", "ml-ops", "data-quality"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]

@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026 Joel Gomes
 """Features that encode the target almost perfectly (IDs, leaked columns)."""
 from __future__ import annotations
 
