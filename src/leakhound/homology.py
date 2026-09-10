@@ -43,11 +43,25 @@ def _signature(kmers: set[str], perms) -> list[int]:
     return [min((a * h + b) % _PRIME for h in bases) for a, b in perms]
 
 
+_NUCLEOTIDES = set("ACGTUN")
+
+
+def _auto_k(seqs, k):
+    """Pick a k-mer size: larger for nucleotides (4-letter alphabet), smaller for protein."""
+    if k is not None:
+        return k, ("nucleotide" if False else "custom")
+    sample = "".join(str(x).upper() for x in list(seqs)[:50])
+    if sample and sum(c in _NUCLEOTIDES for c in sample) / len(sample) > 0.9:
+        return 6, "nucleotide"
+    return 3, "protein"
+
+
 def check_homology(train: pd.DataFrame, test: pd.DataFrame, seq_col: str,
-                   k: int = 3, threshold: float = 0.7, num_perm: int = 64) -> Finding:
+                   k: int | None = None, threshold: float = 0.7, num_perm: int = 64) -> Finding:
     if seq_col not in train.columns or seq_col not in test.columns:
         return Finding("homology", "low", f"sequence column '{seq_col}' not in both sets")
 
+    k, alphabet = _auto_k(train[seq_col], k)
     perms = _perms(num_perm)
     tr_sig = [_signature(_kmers(s, k), perms) for s in train[seq_col].astype(str)]
 
@@ -82,8 +96,8 @@ def check_homology(train: pd.DataFrame, test: pd.DataFrame, seq_col: str,
         "homology", sev,
         f"{n_hits} test sequences ({frac:.1%}) are highly similar to training sequences "
         f"(estimated k-mer Jaccard ≥ {threshold}) — homology leakage inflates biological ML",
-        {"seq_col": seq_col, "k": k, "threshold": threshold, "n_similar": n_hits,
-         "example_similarities": examples},
+        {"seq_col": seq_col, "alphabet": alphabet, "k": k, "threshold": threshold,
+         "n_similar": n_hits, "example_similarities": examples},
         fix="Split by sequence similarity so near-homologues stay on one side "
             "(safesplit(df, seq_col=...), or CD-HIT / MMseqs2).",
     )

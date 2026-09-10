@@ -115,3 +115,17 @@ def test_homology_clean_when_distinct():
     report = audit(train, test, seq_col="seq")
     hom = [f for f in report.findings if f.check == "homology"][0]
     assert hom.severity == "ok"
+
+
+def test_homology_dna_autodetects_k():
+    rng = np.random.default_rng(8)
+    nt = list("ACGT")
+    def seq(L=120): return "".join(rng.choice(nt, L))
+    train = pd.DataFrame({"seq": [seq() for _ in range(80)]})
+    near = []
+    for s in train["seq"].iloc[:15]:
+        s = list(s); s[30] = rng.choice(nt); near.append("".join(s))
+    test = pd.DataFrame({"seq": near + [seq() for _ in range(25)]})
+    hom = [f for f in audit(train, test, seq_col="seq").findings if f.check == "homology"][0]
+    assert hom.severity in ("high", "medium")
+    assert hom.evidence["alphabet"] == "nucleotide" and hom.evidence["k"] == 6

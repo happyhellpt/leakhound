@@ -2,6 +2,8 @@
 
 **Sniff out data leakage in your ML train/test split — before it fools you.**
 
+[![PyPI](https://img.shields.io/pypi/v/leakhound-ml)](https://pypi.org/project/leakhound-ml/) [![Tests](https://github.com/happyhellpt/leakhound/actions/workflows/tests.yml/badge.svg)](https://github.com/happyhellpt/leakhound/actions/workflows/tests.yml) [![Python](https://img.shields.io/pypi/pyversions/leakhound-ml)](https://pypi.org/project/leakhound-ml/) [![License: AGPL v3](https://img.shields.io/badge/license-AGPL--3.0-blue)](LICENSE)
+
 > 📖 **New here? Start with the [step-by-step Getting Started guide](GETTING_STARTED.md).**
 
 Your model posts a beautiful AUC. You're about to ship it, or submit the paper.

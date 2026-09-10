@@ -48,7 +48,8 @@ class Report:
 
     @property
     def leaks(self) -> list[Finding]:
-        return [f for f in self.findings if f.is_leak]
+        # 'impact' quantifies an existing leak; it is not a separate leak to count.
+        return [f for f in self.findings if f.is_leak and f.check != "impact"]
 
     @property
     def clean(self) -> bool:

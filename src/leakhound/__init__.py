@@ -15,7 +15,7 @@ from .checks import (
 from .autodetect import infer_roles, build_advisories
 from .homology import check_homology
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 __all__ = ["audit", "Report", "Finding", "infer_roles", "build_advisories", "__version__"]
 
 
@@ -26,6 +26,7 @@ def audit(train: pd.DataFrame,
           time_col: str | None = None,
           group_col: str | None = None,
           seq_col: str | None = None,
+          seq_k: int | None = None,
           feature_cols: list[str] | None = None,
           measure_impact: bool = False) -> Report:
     """Run every applicable leakage check and return a Report.
@@ -47,7 +48,7 @@ def audit(train: pd.DataFrame,
     if test is not None and group_col is not None:
         report.add(check_group_split(train, test, group_col))
     if test is not None and seq_col is not None:
-        report.add(check_homology(train, test, seq_col))
+        report.add(check_homology(train, test, seq_col, k=seq_k))
 
     if measure_impact and test is not None:
         from .adversarial import adversarial_check

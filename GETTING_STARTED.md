@@ -130,6 +130,7 @@ Add the optional flags when your data has them — each switches on more:
 | `--time-col` | a date/timestamp column | look-ahead (temporal) check |
 | `--group-col` | an id column (patient, user, device) | group-split check |
 | `--seq-col` | a protein/DNA sequence column | homology-leakage check |
+| `--seq-k` | *(number)* | k-mer size for homology (auto: 3 protein / 6 DNA) |
 | `--measure-impact` | *(no value)* | quantify how much each leak inflates the score |
 | `--auto` | *(no value)* | auto-detect the columns above / advise on one file |
 | `--html PATH` | a file path | also write a shareable HTML report |

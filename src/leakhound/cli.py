@@ -22,6 +22,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--time-col", help="timestamp column (checks look-ahead leakage)")
     p.add_argument("--group-col", help="group id column, e.g. patient/user/device")
     p.add_argument("--seq-col", help="sequence column (protein/DNA) for homology-leakage check")
+    p.add_argument("--seq-k", type=int, help="k-mer size for the homology check (auto: 3 protein / 6 nucleotide)")
     p.add_argument("--auto", action="store_true",
                    help="auto-detect target/time/group columns (and advise on a single file)")
     p.add_argument("--measure-impact", action="store_true",
@@ -45,7 +46,7 @@ def main(argv: list[str] | None = None) -> int:
               f"group_col={group_col!r}")
 
     report = audit(train, test, target=target, time_col=time_col, group_col=group_col,
-                   seq_col=args.seq_col, measure_impact=args.measure_impact)
+                   seq_col=args.seq_col, seq_k=args.seq_k, measure_impact=args.measure_impact)
 
     if args.auto and test is None:
         for f in build_advisories({"time_col": time_col, "group_col": group_col}):
