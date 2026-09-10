@@ -13,7 +13,7 @@ LeakHound points at your split and, in one command, tells you whether that
 beautiful number is real — and **exactly how much of it is fake**.
 
 ```bash
-pip install leakhound
+pip install leakhound-ml          # imports and runs as `leakhound`
 leakhound --train train.csv --test test.csv --target label --measure-impact
 ```
 
@@ -35,6 +35,23 @@ just warn you — it **puts a number on the damage**.
 
 It exits non-zero when it finds leakage, so you can drop it into CI and **fail a
 merge that would have shipped a leaky model**.
+
+## It works on data you already trust
+
+Point it at **EEG Eye State** — a real 15,000-row dataset from OpenML. The split
+everyone writes by default (random 80/20) scores a beautiful **0.971 AUC**. But
+it's one continuous recording, so neighbouring samples are almost identical:
+split it honestly (past → future) and the score collapses to **0.546** — a coin
+flip. That **+0.425** was pure leakage, and LeakHound flags it:
+
+```bash
+pip install 'leakhound-ml[impact]'
+python examples/real_world.py
+```
+
+<p align="center">
+  <img src="docs/real_world.png" alt="LeakHound on EEG Eye State" width="820">
+</p>
 
 ## Why I built this
 

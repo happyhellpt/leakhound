@@ -55,7 +55,7 @@ If not, install Python:
 ## 2. Install LeakHound
 
 > While LeakHound is pre-release, install it from source. Once it's published,
-> `pip install leakhound` will be all you need.
+> `pip install leakhound-ml` will be all you need.
 
 ```bash
 git clone https://github.com/happyhellpt/leakhound.git
